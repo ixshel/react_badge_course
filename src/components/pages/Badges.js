@@ -47,7 +47,7 @@ export default class Badges extends Component {
         // }, 3000);
 
          // Pull data to autorefresh it - would be better with sockets
-        const intervalID = setInterval(() => {
+        this.intervalID = setInterval(() => {
            this.fetchData(); 
         }, 5000);
     }
