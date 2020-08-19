@@ -47,7 +47,7 @@ export default class Badges extends Component {
         // }, 3000);
 
          // Pull data to autorefresh it - would be better with sockets
-        setInterval(() => {
+        const intervalID = setInterval(() => {
            this.fetchData(); 
         }, 5000);
     }
@@ -65,7 +65,7 @@ export default class Badges extends Component {
 
     componentWillUnmount() {
         console.log('6. ComponentWillUnmount()');
-        // clearTimeout(this.timeoutId); // limpiar o liberar memoria
+        clearTimeout(this.intervalID); // limpiar o liberar memoria - evita que el intervalo siga trabajando en un componente que ya no esta
     }
 
     render() {
