@@ -1,7 +1,7 @@
 import React from 'react';
 
 import "./styles/Badge.css";
-import confLogo from '../images/badge-header.svg';
+import confLogo from '../images/spce_redlands_conf.png';
 import Gravatar from './Gravatar';
 
 class Badge extends React.Component {
@@ -25,7 +25,7 @@ class Badge extends React.Component {
                 </div>
 
                 <div className="Badge__footer">
-                    #platziconf
+                    #redlandsdevconf
                 </div>
             </div>
         )

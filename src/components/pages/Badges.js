@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Logo from '../../images/badge-header.svg'
+import Logo from '../../images/RedlandsConf.png'
 
 // Componengts
 import BadgesList from '../BadgesList';
@@ -9,7 +9,7 @@ import './styles/Badges.css'
 import { Link } from 'react-router-dom';
 
 // API
-import api from '../../api';
+// import api from '../../api';
 import PageLoading from '../PageLoading';
 import PageError from '../PageError';
 
@@ -29,8 +29,11 @@ export default class Badges extends Component {
     fetchData = async () => {
         this.setState({loading: true,error: null});
             try {
-                const data = await api.badges.list();
-                this.setState({loading: false, data: data})
+                // const data = await api.badges.list();
+                
+                const api = await fetch('https://us-central1-reactbadges.cloudfunctions.net/badges');
+                const data = await api.json();
+                this.setState({ loading: false, data: data });
             } catch (error) {
                 this.setState({loading: false, data: undefined, error: error})
             }
@@ -42,6 +45,11 @@ export default class Badges extends Component {
         // this.timeoutId = setTimeout(() => {
             this.fetchData();
         // }, 3000);
+
+         // Pull data to autorefresh it - would be better with sockets
+        setInterval(() => {
+           this.fetchData(); 
+        }, 5000);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -62,7 +70,7 @@ export default class Badges extends Component {
 
     render() {
         console.log(`2/4. Render()`);
-        if (this.state.loading) {
+        if (this.state.loading && ( this.state.data.length === 0 || !this.state.data )) {
             return <PageLoading />;
         }
 

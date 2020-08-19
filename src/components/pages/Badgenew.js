@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Images
-import Logo from '../../images/platziconf-logo.svg';
+import Logo from '../../images/RedlandsConf.png';
 
 // Styles
 import './styles/BadgeNew.css';
@@ -10,7 +10,7 @@ import './styles/BadgeNew.css';
 import Badge from '../Badge';
 import BadgeForm from '../BadgeForm';
 import PageLoading from '../PageLoading';
-import api from '../../api';
+// import api from '../../api';
 
 class BadgeNew extends React.Component {
     state = {
@@ -38,9 +38,15 @@ class BadgeNew extends React.Component {
         e.preventDefault();
         this.setState({ loading: true, error: null })
         try {
-            await api.badges.create(this.state.form);
-            this.setState({ loading: false })
+            // await api.badges.create(this.state.form);
+            
+            await fetch('https://us-central1-reactbadges.cloudfunctions.net/addBadge', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(this.state.form)
+            })
 
+            this.setState({ loading: false });
             this.props.history.push(`/badges`);
         } catch (error) {
             console.error(error.message)
@@ -61,7 +67,7 @@ class BadgeNew extends React.Component {
 
                 <div className="container">
                     <div className="row">
-                        <div className="col-6">
+                        <div className="col-md-6 col-sm-12">
                             <Badge
                                 firstName={this.state.form.firstName || 'First Name'}
                                 lastName={this.state.form.lastName || 'Last Name'}
@@ -72,7 +78,8 @@ class BadgeNew extends React.Component {
                             />
                         </div>
 
-                        <div className="col-6">
+                        <div className="col-md-6 col-sm-12">
+                            <h1>New Attendant</h1>
                             <BadgeForm
                                 onChange={this.handleChange}
                                 onSubmit={this.handleSubmit}
